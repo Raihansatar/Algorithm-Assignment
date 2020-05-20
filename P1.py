@@ -64,7 +64,6 @@ for i in range(len(locationList)):
     print('')
 
 # 4. Plot Line
-
 for i in range(len(locationList)):
     latList = []
     longList = []
