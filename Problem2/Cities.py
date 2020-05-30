@@ -55,6 +55,25 @@ class Cities:
                 shiftcount += len(i) - 1
                 self.processedText = self.processedText[0:shift + 1:] + self.processedText[shift + len(i)::]
 
+    #remove using TRIES algorithm.
+    def removeStopWords_TRIES(self,text_file_path):
+        popDictionary= Tries.Tries()
+        with open(str(text_file_path), encoding="utf8") as myfile:
+            wordstops=myfile.read().split()
+            myfile.close()
+            for words in wordstops:
+                popDictionary.addWord(str(words))
+
+        text = self.processedText.split();
+        listOfProcessedText = ""
+        i = 0
+        while(i<len(text)):
+            if(popDictionary.checkForWord(str(text[i]))==False):
+                listOfProcessedText = str(listOfProcessedText) + " "+ str(text[i])
+            # else:
+            #     print(str(text[i])+" - is removed")
+            i = i + 1
+        self.processedText = listOfProcessedText
 
     def getFrequency(self):
         Sentence = self.processedText

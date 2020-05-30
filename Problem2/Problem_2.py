@@ -33,11 +33,11 @@ for city in ListOfCities:
     print("\n\n+ ===== "+str(city.name)+"===== +")
     city.processCitiesText()
     print("removing stopword 1...")
-    city.removeStopWords(stopword1)
+    city.removeStopWords_TRIES(stopword1)
     print("removing stopword 2...")
-    city.removeStopWords(stopword2)
+    city.removeStopWords_TRIES(stopword2)
     print("removing stopword 3...")
-    city.removeStopWords(stopword3)
+    city.removeStopWords_TRIES(stopword3)
     print("...removing stopwords COMPLETED")
     print("Getting frequencies and generating graph...")
     city.getFrequency()
@@ -48,20 +48,3 @@ for city in ListOfCities:
     print("Generating PNN Graph...")
     GraphName2 = str(city.name) + "_PPN_Frequencies.html"
     city.generateGraph(GraphName2,city.alignmentList,city.alignmentFrequency)
-
-
-
-
-
-# taipei = Cities.Cities("../textfile/Taipei.txt")
-# taipei.processCitiesText()
-# print("removing stopword 1...")
-# taipei.removeStopWords(stopword1)
-# print("removing stopword 2...")
-# taipei.removeStopWords(stopword2)
-# print("removing stopword 3...")
-# taipei.removeStopWords(stopword3)
-# taipei.getFrequency()
-# taipei.generateGraph("\",taipei.elementList,taipei.elementFrequency)
-# taipei.getPositive_Negative_Neutral_Frequency(positiveList,negativeList)
-# taipei.generateGraph("\.html",taipei.alignmentList,taipei.alignmentFrequency)
