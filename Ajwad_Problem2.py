@@ -1,6 +1,6 @@
 import RabinKarp
 
-with open ("textfile/KL1.txt", "r") as myfile:
+with open ("textfile/KualaLumpur.txt", "r") as myfile:
     data=myfile.read()
     print(str(data))
 
