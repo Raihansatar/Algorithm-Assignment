@@ -26,14 +26,14 @@ class locationInfo:
 
 
 # creating an array to insert information class.
-locationList = [locationInfo("Kuala Lumpur"),
-                locationInfo("Jakarta"),
-                locationInfo("Bangkok"),
-                locationInfo("Taipei"),
-                locationInfo("Hong Kong"),
-                locationInfo("Tokyo"),
-                locationInfo("Beijing"),
-                locationInfo("Seoul")
+locationList = [locationInfo("Kuala Lumpur"),   # 0
+                locationInfo("Jakarta"),        # 1
+                locationInfo("Bangkok"),        # 2
+                locationInfo("Taipei"),         # 3
+                locationInfo("Hong Kong"),      # 4
+                locationInfo("Tokyo"),          # 5
+                locationInfo("Beijing"),        # 6
+                locationInfo("Seoul")           # 7
                 ]
 
 # search for coordinate using geopy
