@@ -3,12 +3,9 @@
 # Colaborador: Juan Manuel Vergara Alvarez
 
 # Dynamic Programming
-# https://www.tutorialspoint.com/design_and_analysis_of_algorithms/design_and_analysis_of_algorithms_travelling_salesman_problem.htm
-# encoding: utf-8
-import itertools
+# Held-Karp Algorithm
 
-# In the first instance a 6x6 matrix is ​​created, this matrix is ​​asymmetric, this is because the costs to travel
-# from city to city vary
+import itertools
 
 w = [[0.0, 1178.671859673486, 1180.0700698191881, 3224.777990540157, 2508.4362660368365, 5318.677216353381,
       4332.215068712133, 4601.871799273804],
@@ -35,57 +32,36 @@ def travel(w):
     n = len(w)
 
     # initial value of 0 to all other points
-    # A = {(frozenset([0, i + 1]), i + 1): (cost, [0, i + 1]) for i, cost in enumerate(w[0][1:])}
     A = {}
     for i, cost in enumerate(w[0][1:]):  # w[0][1:] = take length start from [0][1 afterward]
         A.update({
             (frozenset([0, i + 1]), i + 1): (cost, [0, i + 1])
         })
 
-    # print(A)
-
-    # print()
     for m in range(2, n):  # n=4, is the length of matrix
         B = {}
 
         # At this stage the recursion is used, in addition the 'combinations' module is used, which allows grouping
         # and comparing data.
-
-        # X = {}
-        # for C in itertools.combinations(range(1, n), m): # c = combination using itertools, length and current
-        #     S = [frozenset(C) | {0}]
-        #     # put 0, combine 0 into C
-        #     print(C)
-        #     print(frozenset(C) | {0})
-
         for S in [frozenset(C) | {0} for C in itertools.combinations(range(1, n), m)]:
-            for j in S - {0}:
+            for j in S - {0}: # create set with all the place
                 # The least expensive route for the trip is sought, that is, the minimum values ​​are sought.
                 B[(S, j)] = min(
-                    (A[(S - {j}, k)][0] + w[k][j], A[(S - {j}, k)][1] + [j]) for k in S if k != 0 and k != j)
-        A = B
+                    (A[(S - {j}, k)][0]+w[k][j], A[(S - {j}, k)][1] + [j]) for k in S if k != 0 and k != j)
+
+        A = B  # store B in as as B in the loop only
     # Start path and end path are now added
 
-    res = min([(A[d][0] + w[0][d[1]], A[d][1]) for d in iter(A)])
-
-    #
-    # for d in iter(A):
-    #     print(A[d][0] + w[0][d[1]], A[d][1])
+    res = min((A[d][0] + w[0][d[1]], A[d][1]) for d in iter(A))  # take the minimum from the last set
+    # store res in array
     # Once the minimum value is found, the optimal solution is available.
     # print(res)
 
     Resultado = res[0], [(i) for i in res[1]]
     Resultado[1].append(0)
-    # print(Resultado[1])
-    # with the ordering of costs, it is only necessary to show which is the route to follow in the trip, that is to
-    # say, the cities are positioned in relation to their costs.
+    print(Resultado[1])
+    print(Resultado[0])
 
     return Resultado
 
-
-# location = ["Kuala Lumpur", "Jakarta", "Bangkok", "Taipei", "Hong Kong", "Tokyo", "Beijing", "Seoul"]
 travel(w)
-# print(travel(w)[1])
-# print(travel(w)[0])
-
-# print ("\nBest travel route with return to the city 1 is:\n", travel(w)[1], "\n\nWith cost total:\n", travel(w)[0])
