@@ -6,7 +6,6 @@ from geopy import distance
 import TSPdynamic
 from array import *
 
-
 # creating a class for location information
 class locationInfo:
 
@@ -20,6 +19,7 @@ class locationInfo:
         self.latitude = latitude
         self.longitude = longitude
         self.coordinate = (self.latitude, self.longitude)
+
 
     def print_location_information(self):
         print(str(self.name) + " - (" + str(self.latitude) + ", " + str(self.longitude) + ")")

@@ -1,6 +1,6 @@
 from Problem2 import RabinKarp
 
-with open ("textfile/KualaLumpur.txt", "r") as myfile:
+with open ("../textfile/KualaLumpur.txt", "r") as myfile:
     data=myfile.read()
     print(str(data))
 
@@ -32,7 +32,7 @@ for i in range(len(wordlist)):
 print("\n\n")
 # print(finalTEXT)
 
-with open ("textfile/stopwords_DefaultEnglish.txt", "r") as myfile:
+with open ("../textfile/stopwords_DefaultEnglish.txt", "r") as myfile:
     wordstop=myfile.read().split()
 
 

@@ -1,4 +1,5 @@
 from Problem2 import Cities
+import time
 
 # ======================#
 #                       #
@@ -29,22 +30,42 @@ stopword3="../textfile/stopwords_MySQL.txt"
 negativeList = "../textfile/Negative_Words.txt"
 positiveList = "../textfile/Positive_Words.txt"
 
+Clist=[]
+Plist=[]
+Nlist=[]
+# nlist=[]
+
 for city in ListOfCities:
     print("\n\n+ ===== "+str(city.name)+"===== +")
     city.processCitiesText()
+
+    start_time = time.time()
     print("removing stopword 1...")
-    city.removeStopWords_TRIES(stopword1)
+    city.removeStopWords(stopword1)
+
     print("removing stopword 2...")
-    city.removeStopWords_TRIES(stopword2)
+    city.removeStopWords(stopword2)
+
     print("removing stopword 3...")
-    city.removeStopWords_TRIES(stopword3)
-    print("...removing stopwords COMPLETED")
+    city.removeStopWords(stopword3)
+
+    print("Removing stopwords COMPLETED")
+    print("--- %s seconds ---" % (time.time() - start_time))
+
     print("Getting frequencies and generating graph...")
     city.getFrequency()
     GraphName = str(city.name) + "_Word_Frequencies.html"
-    city.generateGraph(GraphName,city.elementList,city.elementFrequency)
+    city.generateGraphCities(GraphName,city.elementList,city.elementFrequency)
+
     print("Getting the frequency of positvie, negative and neutral words...")
     city.getPositive_Negative_Neutral_Frequency(positiveList,negativeList)
-    print("Generating PNN Graph...")
-    GraphName2 = str(city.name) + "_PPN_Frequencies.html"
-    city.generateGraph(GraphName2,city.alignmentList,city.alignmentFrequency)
+
+    # print("Generating PNN Graph...")
+    # GraphName2 = str(city.name) + "_PPN_Frequencies.html"
+    # city.generateGraphPNN(GraphName2,city.alignmentList,city.alignmentFrequency)
+
+    Clist.append(city.name) #create list of cities name
+    Plist.append(city.alignmentFrequency[0]) #create list of positive freq
+    Nlist.append(city.alignmentFrequency[1]) #create list of negative freq
+
+ListOfCities[0].generateOverallPN_Graph(Clist,Plist,Nlist);

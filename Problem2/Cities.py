@@ -4,7 +4,6 @@ from Problem2 import Tries, RabinKarp
 
 class Cities:
 
-
     # initialize the city object using the textfile
     def __init__(self,text_file_path,name):
         with open(str(text_file_path), encoding="utf8") as myfile:
@@ -13,8 +12,6 @@ class Cities:
 
         self.textfile =str(data)
         self.name = name
-
-
 
     #process the text(remove special char and turn all lowercase) for string matching(remove word list)
     def processCitiesText(self):
@@ -131,6 +128,28 @@ class Cities:
             self.alignmentFrequency.append(PNNdictionary[allKeys])
 
 
-    def generateGraph(self,graph_Name,x_axis, y_axis):
+    def generateGraphCities(self,graph_Name,x_axis, y_axis):
+        fig = go.Figure(data=go.Bar(x=x_axis, y=y_axis))
+        fig.write_html(str(graph_Name), auto_open=False)
+
+    def generateGraphPNN(self,graph_Name,x_axis, y_axis):
         fig = go.Figure(data=go.Bar(x=x_axis, y=y_axis))
         fig.write_html(str(graph_Name), auto_open=True)
+
+    def generateOverallPN_Graph(self,cities_list,positive_list,negative_list):
+        fig = go.Figure()
+        fig.add_trace(go.Bar(
+            x=cities_list,
+            y=positive_list,
+            name='Positive Words',
+            marker_color='lightsalmon'
+        ))
+        fig.add_trace(go.Bar(
+            x=cities_list,
+            y=negative_list,
+            name='Negative Words',
+            marker_color='indianred'
+        ))
+
+        fig.update_layout(barmode='group')
+        fig.write_html("Overall PNN.html", auto_open=True)
