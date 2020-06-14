@@ -1,4 +1,4 @@
-from Problem2 import RabinKarp
+import RabinKarp
 
 with open ("../textfile/KualaLumpur.txt", "r") as myfile:
     data=myfile.read()

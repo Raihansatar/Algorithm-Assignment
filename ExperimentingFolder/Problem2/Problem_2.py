@@ -1,4 +1,4 @@
-from Problem2 import Cities
+import Cities
 import time
 
 # ======================#
@@ -15,14 +15,14 @@ import time
 # ======================#
 
 ListOfCities= []
-ListOfCities.append(Cities.Cities("../textfile/Bangkok.txt","Bangkok"))
-ListOfCities.append(Cities.Cities("../textfile/Beijing.txt","Beijing"))
-ListOfCities.append(Cities.Cities("../textfile/HongKong.txt","Hong Kong"))
-ListOfCities.append(Cities.Cities("../textfile/Jakarta.txt","Jakarta"))
-ListOfCities.append(Cities.Cities("../textfile/Japan.txt","Japan"))
-ListOfCities.append(Cities.Cities("../textfile/KualaLumpur.txt","Kuala Lumpur"))
-ListOfCities.append(Cities.Cities("../textfile/Seoul.txt","Seoul"))
-ListOfCities.append(Cities.Cities("../textfile/Taipei.txt","Taipei"))
+ListOfCities.append(Cities.Cities("../../textfile/KualaLumpur.txt", "Kuala Lumpur"))
+ListOfCities.append(Cities.Cities("../../textfile/Bangkok.txt", "Bangkok"))
+ListOfCities.append(Cities.Cities("../../textfile/Beijing.txt", "Beijing"))
+ListOfCities.append(Cities.Cities("../../textfile/HongKong.txt", "Hong Kong"))
+ListOfCities.append(Cities.Cities("../../textfile/Jakarta.txt", "Jakarta"))
+ListOfCities.append(Cities.Cities("../../textfile/Japan.txt", "Japan"))
+ListOfCities.append(Cities.Cities("../../textfile/Seoul.txt", "Seoul"))
+ListOfCities.append(Cities.Cities("../../textfile/Taipei.txt", "Taipei"))
 
 stopword1="../textfile/stopwords_DefaultEnglish.txt"
 stopword2="../textfile/stopwords_GoogleHistory.txt"
@@ -33,7 +33,7 @@ positiveList = "../textfile/Positive_Words.txt"
 Clist=[]
 Plist=[]
 Nlist=[]
-# nlist=[]
+nlist=[]
 
 for city in ListOfCities:
     print("\n\n+ ===== "+str(city.name)+"===== +")
@@ -41,13 +41,13 @@ for city in ListOfCities:
 
     start_time = time.time()
     print("removing stopword 1...")
-    city.removeStopWords(stopword1)
+    city.removeStopWords_TRIES(stopword1)
 
     print("removing stopword 2...")
-    city.removeStopWords(stopword2)
+    city.removeStopWords_TRIES(stopword2)
 
     print("removing stopword 3...")
-    city.removeStopWords(stopword3)
+    city.removeStopWords_TRIES(stopword3)
 
     print("Removing stopwords COMPLETED")
     print("--- %s seconds ---" % (time.time() - start_time))
@@ -67,5 +67,9 @@ for city in ListOfCities:
     Clist.append(city.name) #create list of cities name
     Plist.append(city.alignmentFrequency[0]) #create list of positive freq
     Nlist.append(city.alignmentFrequency[1]) #create list of negative freq
+    nlist.append(city.alignmentFrequency[2]) #create list of neutral freq
 
-ListOfCities[0].generateOverallPN_Graph(Clist,Plist,Nlist);
+ListOfCities[0].generateOverallPNN_Graph(Clist,Plist,Nlist,nlist);
+SV = ListOfCities[0].calculateSentinelValue(Plist,Nlist,nlist)
+ListOfCities[0].sentimentValuePath(SV)
+print(SV)

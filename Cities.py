@@ -1,5 +1,7 @@
 import plotly.graph_objects as go
-from Problem2 import Tries, RabinKarp
+import Tries
+import RabinKarp
+import shutil, os
 
 
 class Cities:
@@ -132,24 +134,84 @@ class Cities:
         fig = go.Figure(data=go.Bar(x=x_axis, y=y_axis))
         fig.write_html(str(graph_Name), auto_open=False)
 
+        #move file to the correct place
+        if os.path.isdir("html/word_frequency") == False:
+            os.makedirs("html/word_frequency");
+        shutil.move(str(graph_Name), "html/word_frequency/"+str(graph_Name));
+
     def generateGraphPNN(self,graph_Name,x_axis, y_axis):
         fig = go.Figure(data=go.Bar(x=x_axis, y=y_axis))
-        fig.write_html(str(graph_Name), auto_open=True)
+        fig.write_html(str(graph_Name), auto_open=False)
 
-    def generateOverallPN_Graph(self,cities_list,positive_list,negative_list):
+        # move file to the correct place
+        if os.path.isdir("html/PPN_frequency") == False:
+            os.makedirs("html/PPN_frequency");
+        shutil.move(str(graph_Name), "html/PPN_frequency/" + str(graph_Name));
+
+    def generateOverallPNN_Graph(self,cities_list,positive_value_list,negative_value_list,neutral_value_list):
         fig = go.Figure()
         fig.add_trace(go.Bar(
             x=cities_list,
-            y=positive_list,
+            y=positive_value_list,
             name='Positive Words',
             marker_color='lightsalmon'
         ))
         fig.add_trace(go.Bar(
             x=cities_list,
-            y=negative_list,
+            y=negative_value_list,
             name='Negative Words',
             marker_color='indianred'
         ))
+        fig.add_trace(go.Bar(
+            x=cities_list,
+            y=neutral_value_list,
+            name='Negative Words',
+            marker_color='blue'
+        ))
 
         fig.update_layout(barmode='group')
-        fig.write_html("Overall PNN.html", auto_open=True)
+        fig.write_html("Overall_PNN.html", auto_open=False)
+        shutil.move("Overall_PNN.html", "html/" + "Overall PNN.html");
+
+    def generateOverallPN_Graph(self,cities_list,positive_value_list,negative_value_list):
+        fig = go.Figure()
+        fig.add_trace(go.Bar(
+            x=cities_list,
+            y=positive_value_list,
+            name='Positive Words',
+            marker_color='lightsalmon'
+        ))
+        fig.add_trace(go.Bar(
+            x=cities_list,
+            y=negative_value_list,
+            name='Negative Words',
+            marker_color='indianred'
+        ))
+        fig.update_layout(barmode='group')
+        fig.write_html("Overall_PN.html", auto_open=True)
+        shutil.move("Overall_PN.html", "html/" + "Overall_PN.html");
+
+    def calculateSentinelValue(self,positive_value_list,negative_value_list,neutral_value_list):
+        sv=[]
+        for i in range(len(positive_value_list)):
+            P = float(positive_value_list[i])
+            N = float(negative_value_list[i])
+            n = float(neutral_value_list[i])
+            sv.append(round(((P-N)/(P+N+n))*100,4))
+        return sv
+
+    def sentimentValuePath(self,array):
+        y = [1,2,3,4,5,6,7]
+        x = array[1:]
+
+        # bubble sort... for y using x(Sentimental Value) as a key
+        n = len(x)
+        for i in range(n-1):
+            for j in range(n-i-1):
+                if(x[j]<x[j+1]):
+                    x[j],x[j+1]=x[j+1],x[j]
+                    y[j],y[j+1]=y[j+1],y[j]
+
+        y=[0]+y+[0]
+        return y
+

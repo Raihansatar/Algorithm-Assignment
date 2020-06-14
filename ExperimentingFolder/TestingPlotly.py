@@ -1,5 +1,5 @@
 import plotly.graph_objects as go
-from Problem2 import RabinKarp
+import RabinKarp
 
 with open ("../textfile/Taipei.txt", encoding="utf8") as myfile:
     data=myfile.read()

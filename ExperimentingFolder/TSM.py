@@ -6,7 +6,8 @@ import time
 
 
 # for backtracking...
-from Problem2 import Tries
+import Tries
+
 
 # # for testing purposes .....................................................................................................................
 
