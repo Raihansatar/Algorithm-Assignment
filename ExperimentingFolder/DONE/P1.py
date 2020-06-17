@@ -3,7 +3,7 @@ from geopy.geocoders import Nominatim
 from gmplot import gmplot
 from geopy import distance
 # import tsp
-from ExperimentingFolder import TSPdynamic
+from ExperimentingFolder.DONE import TSPdynamic
 
 
 # creating a class for location information

@@ -1,7 +1,7 @@
 import plotly.graph_objects as go
 import RabinKarp
 
-with open ("../textfile/Taipei.txt", encoding="utf8") as myfile:
+with open ("../../textfile/Taipei.txt", encoding="utf8") as myfile:
     data=myfile.read()
 
 wordstring = str(data)
@@ -23,7 +23,7 @@ print("\n\n")
 print(finalTEXT)
 print(wordlist)
 
-with open ("../textfile/stopwords_DefaultEnglish.txt", "r") as myfile:
+with open ("../../textfile/stopwords_DefaultEnglish.txt", "r") as myfile:
     wordstop=myfile.read().split()
 for i in range(len(wordstop)):
     wordstop[i] = " "+wordstop[i]+" "

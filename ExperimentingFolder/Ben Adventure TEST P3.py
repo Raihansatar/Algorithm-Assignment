@@ -17,9 +17,6 @@ class locationInfo:
     def setAddress(self, address):
         self.address = address
 
-    def setSV(self,sentiment_value):
-        self.sv = sentiment_value
-
     def setCoor(self, latitude, longitude):
         self.latitude = latitude
         self.longitude = longitude
@@ -131,7 +128,7 @@ print(locationList[short[len(short) - 1]].name)
 
 print("\nwith the total distance: %.3f km" % costTPS)
 
-wait = input()
+
 
 
 
@@ -210,26 +207,16 @@ for city in ListOfCities:
     negativeValuelist.append(city.alignmentFrequency[1]) #create list of negative freq
     neutralValuelist.append(city.alignmentFrequency[2]) #create list of neutral freq
 
-
 ListOfCities[0].generateOverallPNN_Graph(cityNamelist,positiveValuelist,negativeValuelist,neutralValuelist);
 SV = ListOfCities[0].calculateSentinelValue(positiveValuelist,negativeValuelist,neutralValuelist)
 SV_Path = ListOfCities[0].sentimentValuePath(SV)
 
-# printing SV table AND saving it location list
-print("\n\nCities and their SV")
-for i in range(len(SV)):
-    locationList[i].setSV(SV[i])
-    print(str(locationList[i].name)+" = "+str(locationList[i].sv))
-print("\n")
-
-# priniting sentiment path
 print("\nThe sentinent path is:")
 for i in range(len(SV_Path) - 1):
     print(locationList[SV_Path[i]].name + " --> ", end="")
 print(locationList[0].name)
-print(SV_Path)
 
-# drawing the Sentinal Value Path on html
+# drawing the Sentinal Value Path
 SV_latList = []
 SV_longList = []
 for i in SV_Path:
@@ -245,106 +232,5 @@ SV_gmap.draw("Sentinent_Value_Path.html")
 
 
 # ================================================= PROBLEM 3 ======================================================== #
-
-print("\n\n---------------------------------------------------\n\n")
-print(short)
-
-# create new city list using the shortest distance
-# for ease of understanding and coding
-list_of_cities = []
-for city in range(len(short)-1):
-    list_of_cities.append(locationList[short[city]])
-    print("Name=>"+str(list_of_cities[city].name)+" SV value=>"+str(list_of_cities[city].sv))
-print("")
-
-# create an array to store the newly optimized route
-optimised_list = [0]
-# create an array to store the cities that pass the first condition
-lessThen40 = []
-
-
-#starting off the process
-currentCity = 0 #set current city as KL(index 0)
-# create an array to store info of which cities has been visited (1 for visited)
-visited = [1,0,0,0,0,0,0,0]
-
-i = 1
-while len(optimised_list)<8:
-    print("\n======================================================================================")
-    lessThen40 = []
-    currentCity = optimised_list[-1] #get last element
-
-    print("Current city is: " + list_of_cities[currentCity].name)
-    targetCity = i
-    next_to_visit_found=False
-    while(next_to_visit_found==False):
-        print(i)
-        if(visited[targetCity]==1 or targetCity == currentCity): #next target city cannot be self or visited city
-            if (targetCity == 7):  # if end of the array, loop back to 1
-                i = 1
-                targetCity = i
-            else:
-                i = i+1
-                targetCity = i
-        else:
-            targetCity = i
-            next_to_visit_found = True
-
-
-    print("Target city is: "+list_of_cities[targetCity].name)
-
-    # find all the distance less then 40 from current city to target city
-    condition1a = distance.distance(list_of_cities[currentCity].coordinate, list_of_cities[targetCity].coordinate).km
-    for j in range(1,8):
-        if(visited[j] == 1):
-            print("already visited:"+str(list_of_cities[j].name))
-        else:
-            condition1b = distance.distance(list_of_cities[currentCity].coordinate, list_of_cities[j].coordinate).km
-            ans = (condition1b/condition1a)*100-100
-            print("Difference of % distance from ["+ str(list_of_cities[currentCity].name) +", "+str(list_of_cities[j].name)+"] is "+str(ans))
-            if(ans<40.00 and ans!=0.0):
-                # print("-----------")
-                # print(str(list_of_cities[j].name)+" - is less then 140% distance")
-                # print("-----------")
-                lessThen40.append(j)
-
-    #check if there city with >2% of sentiment value
-    print("\n++++++++++++++++++++++++++")
-
-    biggestSV=0
-    biggestSV_index = targetCity
-    for k in range(len(lessThen40)):
-        sentimentDiff = list_of_cities[lessThen40[k]].sv - list_of_cities[targetCity].sv
-        print("Difference of sentiment from ["+str(list_of_cities[lessThen40[k]].name)+", "+str(list_of_cities[targetCity].name)+"] is "+str(sentimentDiff))
-        if(abs(sentimentDiff)>2 and sentimentDiff>0): # 2nd cond is to make sure that the sentiment value is better
-            if(biggestSV<sentimentDiff): # if the there are better city
-                biggestSV=sentimentDiff
-                biggestSV_index = lessThen40[k]
-                print("BiggestSV: "+str(biggestSV)+" at "+str(list_of_cities[lessThen40[k]].name)+"("+str(biggestSV_index)+")")
-
-    if(biggestSV == 0):
-        print("Original target city is added")
-    else:
-        print("Better city is located")
-    print(str(list_of_cities[biggestSV_index].name))
-    targetCity = biggestSV_index
-    optimised_list.append(targetCity)
-    visited[targetCity] = 1
-
-    i = targetCity
-
-    # if (targetCity == 7):  # if end of the array, loop back to 1
-    #     i = 1
-    # else:
-    #     i = i + 1
-
-    print(lessThen40)
-    print(optimised_list)
-    print(visited)
-    print(i)
-    print()
-
-
-
 
 

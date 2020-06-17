@@ -15,14 +15,14 @@ import time
 # ======================#
 
 ListOfCities= []
-ListOfCities.append(Cities.Cities("../../textfile/KualaLumpur.txt", "Kuala Lumpur"))
-ListOfCities.append(Cities.Cities("../../textfile/Bangkok.txt", "Bangkok"))
-ListOfCities.append(Cities.Cities("../../textfile/Beijing.txt", "Beijing"))
-ListOfCities.append(Cities.Cities("../../textfile/HongKong.txt", "Hong Kong"))
-ListOfCities.append(Cities.Cities("../../textfile/Jakarta.txt", "Jakarta"))
-ListOfCities.append(Cities.Cities("../../textfile/Japan.txt", "Japan"))
-ListOfCities.append(Cities.Cities("../../textfile/Seoul.txt", "Seoul"))
-ListOfCities.append(Cities.Cities("../../textfile/Taipei.txt", "Taipei"))
+ListOfCities.append(Cities.Cities("../../../textfile/KualaLumpur.txt", "Kuala Lumpur"))
+ListOfCities.append(Cities.Cities("../../../textfile/Bangkok.txt", "Bangkok"))
+ListOfCities.append(Cities.Cities("../../../textfile/Beijing.txt", "Beijing"))
+ListOfCities.append(Cities.Cities("../../../textfile/HongKong.txt", "Hong Kong"))
+ListOfCities.append(Cities.Cities("../../../textfile/Jakarta.txt", "Jakarta"))
+ListOfCities.append(Cities.Cities("../../../textfile/Japan.txt", "Japan"))
+ListOfCities.append(Cities.Cities("../../../textfile/Seoul.txt", "Seoul"))
+ListOfCities.append(Cities.Cities("../../../textfile/Taipei.txt", "Taipei"))
 
 stopword1="../textfile/stopwords_DefaultEnglish.txt"
 stopword2="../textfile/stopwords_GoogleHistory.txt"
