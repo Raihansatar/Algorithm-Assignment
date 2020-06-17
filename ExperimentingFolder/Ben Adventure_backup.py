@@ -131,7 +131,7 @@ print(locationList[short[len(short) - 1]].name)
 
 print("\nwith the total distance: %.3f km" % costTPS)
 
-wait = input()
+
 
 
 

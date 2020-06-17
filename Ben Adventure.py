@@ -52,7 +52,7 @@ for x in range(len(locationList)):
     locationList[x].print_location_information()
 
     # marking location using gmplot
-gmap = gmplot.GoogleMapPlotter(locationList[0].latitude, locationList[0].longitude, 13)
+gmap = gmplot.GoogleMapPlotter(locationList[4].latitude, locationList[4].longitude, 3)
 
 
 
@@ -131,7 +131,7 @@ print(locationList[short[len(short) - 1]].name)
 
 print("\nwith the total distance: %.3f km" % costTPS)
 
-wait = input()
+
 
 
 
@@ -236,10 +236,10 @@ for i in SV_Path:
     SV_latList.append(locationList[i].latitude)
     SV_longList.append(locationList[i].longitude)
 
-SV_gmap = gmplot.GoogleMapPlotter(locationList[0].latitude, locationList[0].longitude, 13)
+SV_gmap = gmplot.GoogleMapPlotter(locationList[4].latitude, locationList[4].longitude, 3)
 for x in range(len(locationList)):
     SV_gmap.marker(locationList[x].latitude, locationList[x].longitude)
-SV_gmap.plot(SV_latList,SV_longList,'cornflowerblue', edge_width=2)
+SV_gmap.plot(SV_latList,SV_longList,'red', edge_width=2)
 SV_gmap.draw("Sentinent_Value_Path.html")
 
 
@@ -267,8 +267,8 @@ lessThen40 = []
 currentCity = 0 #set current city as KL(index 0)
 # create an array to store info of which cities has been visited (1 for visited)
 visited = [1,0,0,0,0,0,0,0]
-
 i = 1
+
 while len(optimised_list)<8:
     print("\n======================================================================================")
     lessThen40 = []
@@ -278,7 +278,6 @@ while len(optimised_list)<8:
     targetCity = i
     next_to_visit_found=False
     while(next_to_visit_found==False):
-        print(i)
         if(visited[targetCity]==1 or targetCity == currentCity): #next target city cannot be self or visited city
             if (targetCity == 7):  # if end of the array, loop back to 1
                 i = 1
@@ -293,7 +292,7 @@ while len(optimised_list)<8:
 
     print("Target city is: "+list_of_cities[targetCity].name)
 
-    # find all the distance less then 40 from current city to target city
+    # find all the distance less then 40% from current city to target city
     condition1a = distance.distance(list_of_cities[currentCity].coordinate, list_of_cities[targetCity].coordinate).km
     for j in range(1,8):
         if(visited[j] == 1):
@@ -303,9 +302,6 @@ while len(optimised_list)<8:
             ans = (condition1b/condition1a)*100-100
             print("Difference of % distance from ["+ str(list_of_cities[currentCity].name) +", "+str(list_of_cities[j].name)+"] is "+str(ans))
             if(ans<40.00 and ans!=0.0):
-                # print("-----------")
-                # print(str(list_of_cities[j].name)+" - is less then 140% distance")
-                # print("-----------")
                 lessThen40.append(j)
 
     #check if there city with >2% of sentiment value
@@ -330,21 +326,30 @@ while len(optimised_list)<8:
     targetCity = biggestSV_index
     optimised_list.append(targetCity)
     visited[targetCity] = 1
-
     i = targetCity
 
-    # if (targetCity == 7):  # if end of the array, loop back to 1
-    #     i = 1
-    # else:
-    #     i = i + 1
-
-    print(lessThen40)
-    print(optimised_list)
-    print(visited)
-    print(i)
-    print()
 
 
 
+optimised_list.append(0)
+print(optimised_list)
+# printing optimized list
+print("\nThe Optimized path is:")
+for i in range(len(list_of_cities) - 1):
+    print(str(list_of_cities[optimised_list[i]].name) + " --> ", end="")
+print(str(list_of_cities[optimised_list[8]].name))
 
 
+
+# drawing the Sentinal Value Path on html
+os_latList = []
+os_longList = []
+for i in optimised_list:
+    os_latList.append(locationList[i].latitude)
+    os_longList.append(locationList[i].longitude)
+
+os_gmap = gmplot.GoogleMapPlotter(list_of_cities[6].latitude, list_of_cities[6].longitude, 3)
+for x in range(len(locationList)):
+    os_gmap.marker(locationList[x].latitude, locationList[x].longitude)
+os_gmap.plot(os_latList,os_longList,'red', edge_width=2)
+os_gmap.draw("Optimised_Path.html")
