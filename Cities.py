@@ -5,7 +5,6 @@ import shutil, os
 
 
 class Cities:
-
     # initialize the city object using the textfile
     def __init__(self,text_file_path,name):
         with open(str(text_file_path), encoding="utf8") as myfile:
@@ -139,6 +138,8 @@ class Cities:
             os.makedirs("html/word_frequency");
         shutil.move(str(graph_Name), "html/word_frequency/"+str(graph_Name));
 
+
+
     def generateGraphPNN(self,graph_Name,x_axis, y_axis):
         fig = go.Figure(data=go.Bar(x=x_axis, y=y_axis))
         fig.write_html(str(graph_Name), auto_open=False)
@@ -165,7 +166,7 @@ class Cities:
         fig.add_trace(go.Bar(
             x=cities_list,
             y=neutral_value_list,
-            name='Negative Words',
+            name='Neutral Words',
             marker_color='blue'
         ))
 

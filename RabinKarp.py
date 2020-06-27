@@ -43,10 +43,7 @@ def RabinKarp(pattern, text, prime, numOfChar):
                 tHmap = tHmap+prime
 
     return index
-#
-# # RabinKarp("fun","algorithmisfun",17,10)
-#
-#
+
 
 
 
