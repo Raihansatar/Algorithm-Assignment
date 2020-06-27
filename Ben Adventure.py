@@ -3,7 +3,7 @@ from gmplot import gmplot
 from geopy import distance
 import itertools
 import Cities
-
+import BruteForce
 
 # =================================================== PROBLEM 1 ======================================================== #
 
@@ -132,6 +132,8 @@ print(locationList[short[len(short) - 1]].name)
 print("\nwith the total distance: %.3f km" % costTPS)
 
 
+# Brute force option
+# BruteForce.bruteforce(locationList);
 
 
 

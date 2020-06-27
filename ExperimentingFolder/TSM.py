@@ -5,7 +5,7 @@ import sys
 import time
 
 
-# for backtracking...
+# for backtracking...TSM.py
 import Tries
 
 
@@ -84,16 +84,3 @@ def bruteforce(locationList):
 
 bruteforce(locationList)
 
-
-def createBacktrackingDictionary():
-
-    app = list(permutations(range(1,4))); #1,8
-    tree = Tries.Tries()
-    for i in app:
-        word = "0"
-        for j in range(len(i)):
-            word = word + str(i[j])
-        word += "0"
-        tree.addWord(word)
-        print(word)
-    return tree.root
