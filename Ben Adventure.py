@@ -8,6 +8,11 @@ import BruteForce
 
 # =================================================== PROBLEM 1 ======================================================== #
 
+print("\n\n        +----------------------------------------------------+")
+print("        |-----------------  PROBLEM  1  ---------------------|")
+print("        +----------------------------------------------------+\n\n")
+
+
 # creating a class for location information
 class locationInfo:
 
@@ -31,7 +36,6 @@ class locationInfo:
 
 
 # 1. creating an array to insert information class.
-
 locationList = [locationInfo("Kuala Lumpur","textfile/KualaLumpur.txt"),
                 locationInfo("Jakarta","textfile/Jakarta.txt"),
                 locationInfo("Bangkok","textfile/Bangkok.txt"),
@@ -55,27 +59,19 @@ for x in range(len(locationList)):
     # marking location using gmplot
 gmap = gmplot.GoogleMapPlotter(locationList[4].latitude, locationList[4].longitude, 3)
 
-
-
-
 # 2. Placing/Mark all points(drop markers)
-
 for x in range(len(locationList)):
     gmap.marker(locationList[x].latitude, locationList[x].longitude)
-
 print("")
 
 
 # 3. Get Distance
-
 print("The distance of the city(3 decimal place):")
 print("%15s|" % (''), end='')
 for i in range(len(locationList)):
     print("%15s|" % (locationList[i].name), end='')
 print('')
-
 distanceCountry = [[0] * len(locationList) for i in range(len(locationList))]
-
 for i in range(len(locationList)):
     print("%-15s|" % locationList[i].name, end='')
     for j in range(len(locationList)):
@@ -88,41 +84,29 @@ def distance_path(path, yyy):
     sum = 0.0
     for y in range (len(path)-1):
         sum = sum + yyy[path[y]][path[y+1]]
-    print("The distance is ", end='')
-    print(sum)
+    print("The distance: ", end='')
+    print(str(round(sum,3))+" km")
     return sum
 
 # function of travel salesman person using Held-Karp algorithm
-
 # Get the shortest distance using Held Karp (Traveling Saleman Person)
 short = HeldKarp.TSP(distanceCountry)[1] # get the shortest path
 costTPS = HeldKarp.TSP(distanceCountry)[0] # get the shortest path cost
 
+final_shortestPath = ""
 print("\nThe shortest path is:")
 for i in range(len(short) - 1):
-    print(locationList[short[i]].name + " --> ", end="")
-print(locationList[short[len(short) - 1]].name)
-
-print("\nwith the total distance: %.3f km" % costTPS)
+     final_shortestPath= final_shortestPath + locationList[short[i]].name + " --> "
+final_shortestPath = final_shortestPath + locationList[short[len(short) - 1]].name
+print(final_shortestPath)
+print("The distance: %.3f km" % costTPS)
 
 
 # Brute force option
 # BruteForce.bruteforce(locationList);
 
 
-
 # 4. Plot Line
-
-# for i in range(len(locationList)):
-#     latList = []
-#     longList = []
-#     for j in range(len(locationList)):
-#         latList.append(locationList[i].latitude)
-#         longList.append(locationList[i].longitude)
-#         latList.append(locationList[j].latitude)
-#         longList.append(locationList[j].longitude)
-#         gmap.plot(latList, longList, 'cornflowerblue', edge_width=2)
-
 # plot the shortest route line
 latShort = []
 longShort = []
@@ -132,16 +116,21 @@ for j in range(len(short)):
     gmap.plot(latShort, longShort, 'red', edge_width=2)
 
 
-
-
 # 5.draw the map
-
 gmap.draw("Ben_Shortest_Adventure.html")
 
 
 
 
+
+
+
 # =============================================================== PROBLEM 2 =========================================================== #
+
+print("\n\n\n\n        +----------------------------------------------------+")
+print("        |-----------------  PROBLEM  2  ---------------------|")
+print("        +----------------------------------------------------+")
+
 
 stopword_DefaultEnglish="textfile/stopwords_DefaultEnglish.txt"
 stopword_GoogleHistory="textfile/stopwords_GoogleHistory.txt"
@@ -163,10 +152,6 @@ for city in ListOfCities:
     city.processCitiesText()
     print("removing stopword from Default English...")
     city.removeStopWords_TRIES(stopword_DefaultEnglish)
-    # print("removing stopword Google History...")
-    # city.removeStopWords_TRIES(stopword_GoogleHistory)
-    # print("removing stopword MySQL...")
-    # city.removeStopWords_TRIES(stopword_MySQL)
     print("Removing stopwords COMPLETED")
 
     print("Getting frequencies and generating graph...")
@@ -199,16 +184,17 @@ for i in range(len(SV)):
 print("\n")
 
 # priniting sentiment path
-print("\nThe sentinent path is:")
+final_sentimentPath = ""
+print("\nThe sentiment path is:")
 for i in range(len(SV_Path) - 1):
-    print(locationList[SV_Path[i]].name + " --> ", end="")
-print(locationList[0].name)
-print(SV_Path)
+    final_sentimentPath = final_sentimentPath + locationList[SV_Path[i]].name + " --> "
+final_sentimentPath = final_sentimentPath + locationList[0].name
+print(final_sentimentPath)
 
-print(SV_Path)
-distance_path(SV_Path, distanceCountry)
+# calculating distance
+sv_distance = distance_path(SV_Path, distanceCountry)
 
-# drawing the Sentinal Value Path on html
+# drawing the Sentiment Value Path on html
 SV_latList = []
 SV_longList = []
 for i in SV_Path:
@@ -223,18 +209,23 @@ SV_gmap.draw("Sentinent_Value_Path.html")
 
 
 
+
+
+
+
+
+
 # ================================================= PROBLEM 3 ======================================================== #
 
-print("\n\n---------------------------------------------------\n\n")
-print(short)
+print("\n\n\n\n        +----------------------------------------------------+")
+print("        |-----------------  PROBLEM  3  ---------------------|")
+print("        +----------------------------------------------------+")
 
 # create new city list using the shortest distance
 # for ease of understanding and coding
 list_of_cities = []
 for city in range(len(short)-1):
     list_of_cities.append(locationList[short[city]])
-    print("Name=>"+str(list_of_cities[city].name)+" SV value=>"+str(list_of_cities[city].sv))
-print("")
 
 # create an array to store the newly optimized route
 optimised_list = [0]
@@ -249,7 +240,10 @@ visited = [1,0,0,0,0,0,0,0]
 i = 1
 
 while len(optimised_list)<8:
-    print("\n======================================================================================")
+    print("\n==============================================================================")
+
+    print("\n - Checking Distance - ")
+
     lessThen40 = []
     currentCity = optimised_list[-1] #get last element
 
@@ -269,7 +263,7 @@ while len(optimised_list)<8:
             next_to_visit_found = True
 
 
-    print("Target city is: "+list_of_cities[targetCity].name)
+    print("Target city is: "+list_of_cities[targetCity].name+"\n")
 
     # find all the distance less then 40% from current city to target city
     condition1a = distance.distance(list_of_cities[currentCity].coordinate, list_of_cities[targetCity].coordinate).km
@@ -284,7 +278,7 @@ while len(optimised_list)<8:
                 lessThen40.append(j)
 
     #check if there city with >2% of sentiment value
-    print("\n++++++++++++++++++++++++++")
+    print("\n - Checking sentiment value - ")
 
     biggestSV=0
     biggestSV_index = targetCity
@@ -298,31 +292,28 @@ while len(optimised_list)<8:
                 print("BiggestSV: "+str(biggestSV)+" at "+str(list_of_cities[lessThen40[k]].name)+"("+str(biggestSV_index)+")")
 
     if(biggestSV == 0):
-        print("Original target city is added")
+        print("Original target city is added:")
     else:
-        print("Better city is located")
+        print("Better city is located and is added:")
     print(str(list_of_cities[biggestSV_index].name))
     targetCity = biggestSV_index
     optimised_list.append(targetCity)
     visited[targetCity] = 1
     i = targetCity
 
-
-
-
 optimised_list.append(0)
-print(optimised_list)
+
+
 # printing optimized list
+final_optimisedPath = ""
 print("\nThe Optimized path is:")
 for i in range(len(list_of_cities)):
-    print(str(list_of_cities[optimised_list[i]].name) + " --> ", end="")
-print(str(list_of_cities[optimised_list[8]].name))
-
+    final_optimisedPath = final_optimisedPath + str(list_of_cities[optimised_list[i]].name) + " --> "
+final_optimisedPath = final_optimisedPath + str(list_of_cities[optimised_list[8]].name)
+print(final_optimisedPath)
 
 
 # drawing the Sentinal Value Path on html
-
-
 os_latList = []
 os_longList = []
 op_coordinate = []
@@ -338,27 +329,37 @@ for x in range(len(list_of_cities)):
 os_gmap.plot(os_latList,os_longList,'red', edge_width=2)
 os_gmap.draw("Optimised_Path.html")
 
-distanceCountry_op = [[0] * len(list_of_cities) for i in range(len(list_of_cities))]
-for i in range(len(list_of_cities)):
-    sumx=0.0
-    print("%-15s|" % list_of_cities[i].name, end='')
-    for j in range(len(list_of_cities)):
-        distanceCountry_op[i][j] = distance.distance(op_coordinate[i], op_coordinate[j]).km
-        print("%12.3f km|" % distance.distance(op_coordinate[i], op_coordinate[j]).km, end='')
-    print('')
+
+# calculating distance
+optimumPathDistance = 0
+for i in range(len(op_coordinate) - 1):
+    optimumPathDistance = optimumPathDistance + distance.distance(op_coordinate[i], op_coordinate[i+1]).km
+print("The distance is "+str(round(optimumPathDistance,3)))
 
 
-# print(optimised_list)
-print("OP")
-print(optimised_list)
-distance_path(optimised_list, distanceCountry_op)
 
 
-# TESTTTTTTTTTTTT
-print("SV")
-print(SV_Path)
-distance_path(SV_Path, distanceCountry)
 
-print("SHort")
-print(short)
-distance_path(short, distanceCountry)
+
+# ============== ALL PACH CONCLUSION =================== #
+
+print("\n\n\n\n")
+
+print("== BELOW IS THE SUMMARY OF ALL THE OUTPUTS ==\n")
+
+print("The Shortest path ("+str(round(costTPS))+" km):")
+print(final_shortestPath)
+print("")
+
+print("The Sentiment Value path ("+str(round(sv_distance))+" km):")
+print(final_sentimentPath)
+print("")
+
+print("The Optimum path ("+str(round(optimumPathDistance,3))+" km):")
+print(final_shortestPath)
+print("")
+
+
+
+
+

@@ -31,14 +31,14 @@ class locationInfo:
 
 # 1. creating an array to insert information class.
 
-locationList = [locationInfo("Kuala Lumpur","textfile/KualaLumpur.txt"),
-                locationInfo("Jakarta","textfile/Jakarta.txt"),
-                locationInfo("Bangkok","textfile/Bangkok.txt"),
-                locationInfo("Taipei","textfile/Taipei.txt"),
-                locationInfo("Hong Kong","textfile/HongKong.txt"),
-                locationInfo("Tokyo","textfile/Japan.txt"),
-                locationInfo("Beijing","textfile/Beijing.txt"),
-                locationInfo("Seoul","textfile/Seoul.txt")
+locationList = [locationInfo("Kuala Lumpur","textfile/KualaLumpur.txt"),    #0
+                locationInfo("Jakarta","textfile/Jakarta.txt"),             #1
+                locationInfo("Bangkok","textfile/Bangkok.txt"),             #2
+                locationInfo("Taipei","textfile/Taipei.txt"),               #3
+                locationInfo("Hong Kong","textfile/HongKong.txt"),          #4
+                locationInfo("Tokyo","textfile/Japan.txt"),                 #5
+                locationInfo("Beijing","textfile/Beijing.txt"),             #6
+                locationInfo("Seoul","textfile/Seoul.txt")                  #7
                 ]
 
     # search for coordinate using geopy
@@ -81,8 +81,8 @@ for i in range(len(locationList)):
 # 13930.557 km
 
 # path = [0, 2, 6, 7, 5, 3, 4, 1, 0]
-# path = [0, 2, 6, 7, 3, 4, 1, 5, 0]
-path = [0, 3, 7, 6, 2, 1, 5, 4, 0]
+path = [0, 2, 6, 7, 3, 4, 1, 5, 0]
+#path = [0, 3, 7, 6, 2, 1, 5, 4, 0]
 print(len(path)-1)
 
 def distance(path):
