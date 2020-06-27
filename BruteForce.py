@@ -1,7 +1,7 @@
 from itertools import permutations
 from geopy import distance
 import sys
-import time
+
 
 # using brute force to get the city distance.
 def bruteforce(locationList):
@@ -9,8 +9,7 @@ def bruteforce(locationList):
     shortestDistance = sys.maxsize;
     index = 0;
 
-    print("\nSolving TSP using permutation and bruteforce...\nplease wait...")
-    start_time = time.time()
+    print("\nSolving TSP using permutation and bruteforce\nplease wait...")
 
     listOfDistances = []
     for i in range(len(app)):
@@ -25,14 +24,13 @@ def bruteforce(locationList):
             index = i;
 
     print("\nComputation Complete.")
-    print("--- %s seconds ---" % (time.time() - start_time))
-    print("\nShortest Distance is "+str(shortestDistance))
+    print("\nShortest Distance is "+str(round(shortestDistance,3))+" km")
     print("Route to take:\n")
-    print(str(locationList[0].name))
-    print("  V   ")
+    finalstr = str(locationList[0].name)
     for city in app[index]:
-        print(str(locationList[city].name))
-        print("  V   ")
-    print(str(locationList[0].name))
+        finalstr = finalstr + str(locationList[city].name) + '-->'
+    finalstr = finalstr + str(locationList[0].name)
+    print(finalstr)
+
 
 

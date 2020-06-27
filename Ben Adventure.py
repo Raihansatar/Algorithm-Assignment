@@ -5,6 +5,7 @@ import itertools
 import Cities
 import HeldKarp
 import BruteForce
+import time
 
 # =================================================== PROBLEM 1 ======================================================== #
 
@@ -94,7 +95,8 @@ short = HeldKarp.TSP(distanceCountry)[1] # get the shortest path
 costTPS = HeldKarp.TSP(distanceCountry)[0] # get the shortest path cost
 
 final_shortestPath = ""
-print("\nThe shortest path is:")
+print("\nUsing Held-Karp algorithm,")
+print("The shortest path is:")
 for i in range(len(short) - 1):
      final_shortestPath= final_shortestPath + locationList[short[i]].name + " --> "
 final_shortestPath = final_shortestPath + locationList[short[len(short) - 1]].name
@@ -103,8 +105,9 @@ print("The distance: %.3f km" % costTPS)
 
 
 # Brute force option
-# BruteForce.bruteforce(locationList);
-
+start_time = time.time()
+BruteForce.bruteforce(locationList);
+print("Time Taken [%s seconds]" % (time.time() - start_time))
 
 # 4. Plot Line
 # plot the shortest route line
@@ -151,7 +154,10 @@ for city in ListOfCities:
     print("\n\n+ ===== "+str(city.name)+" ===== +")
     city.processCitiesText()
     print("removing stopword from Default English...")
-    city.removeStopWords_TRIES(stopword_DefaultEnglish)
+    start_time = time.time()
+    city.removeStopWords(stopword_DefaultEnglish)
+    # city.removeStopWords_TRIES(stopword_DefaultEnglish)
+    print("\nTime Taken [%s seconds]" % (time.time() - start_time))
     print("Removing stopwords COMPLETED")
 
     print("Getting frequencies and generating graph...")
