@@ -155,11 +155,10 @@ for city in ListOfCities:
     city.processCitiesText()
     print("removing stopword from Default English...")
     start_time = time.time()
-    city.removeStopWords(stopword_DefaultEnglish)
-    # city.removeStopWords_TRIES(stopword_DefaultEnglish)
-    print("\nTime Taken [%s seconds]" % (time.time() - start_time))
+    # city.removeStopWords(stopword_DefaultEnglish)
+    city.removeStopWords_TRIES(stopword_DefaultEnglish)
+    print("Time Taken [%s seconds]" % (time.time() - start_time))
     print("Removing stopwords COMPLETED")
-
     print("Getting frequencies and generating graph...")
     city.getFrequency()
     GraphName = str(city.name) + "_Word_Frequencies.html"
@@ -169,7 +168,7 @@ for city in ListOfCities:
     city.getPositive_Negative_Neutral_Frequency(positiveList,negativeList)
 
     print("Generating PNN Graph...")
-    GraphName2 = str(city.name) + "_PPN_Frequencies.html"
+    GraphName2 = str(city.name) + "_PNN_Frequencies.html"
     city.generateGraphPNN(GraphName2,city.alignmentList,city.alignmentFrequency)
 
     cityNamelist.append(city.name) #create list of cities name
@@ -351,7 +350,7 @@ print("The distance is "+str(round(optimumPathDistance,3)))
 
 print("\n\n\n\n")
 
-print("== BELOW IS THE SUMMARY OF ALL THE OUTPUTS ==\n")
+print(" == BELOW IS THE SUMMARY OF ALL THE OUTPUTS == \n")
 
 print("The Shortest path ("+str(round(costTPS))+" km):")
 print(final_shortestPath)

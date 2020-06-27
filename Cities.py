@@ -145,9 +145,9 @@ class Cities:
         fig.write_html(str(graph_Name), auto_open=False)
 
         # move file to the correct place
-        if os.path.isdir("html/PPN_frequency") == False:
-            os.makedirs("html/PPN_frequency");
-        shutil.move(str(graph_Name), "html/PPN_frequency/" + str(graph_Name));
+        if os.path.isdir("html/PNN_frequency") == False:
+            os.makedirs("html/PNN_frequency");
+        shutil.move(str(graph_Name), "html/PNN_frequency/" + str(graph_Name));
 
     def generateOverallPNN_Graph(self,cities_list,positive_value_list,negative_value_list,neutral_value_list):
         fig = go.Figure()
