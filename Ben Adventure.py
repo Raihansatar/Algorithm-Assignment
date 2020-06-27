@@ -1,9 +1,8 @@
 from geopy.geocoders import Nominatim
 from gmplot import gmplot
 from geopy import distance
-import itertools
 import Cities
-import BruteForce
+import HeldKarp
 
 # =================================================== PROBLEM 1 ======================================================== #
 
@@ -28,9 +27,7 @@ class locationInfo:
     def print_location_information(self):
         print(str(self.name) + " - (" + str(self.latitude) + ", " + str(self.longitude) + ")")
 
-
 # 1. creating an array to insert information class.
-
 locationList = [locationInfo("Kuala Lumpur","textfile/KualaLumpur.txt"),
                 locationInfo("Jakarta","textfile/Jakarta.txt"),
                 locationInfo("Bangkok","textfile/Bangkok.txt"),
@@ -41,8 +38,7 @@ locationList = [locationInfo("Kuala Lumpur","textfile/KualaLumpur.txt"),
                 locationInfo("Seoul","textfile/Seoul.txt")
                 ]
 
-    # search for coordinate using geopy
-
+# search for coordinate using geopy
 print("Location - (Latitude, Longitude)")
 geolocator = Nominatim(user_agent="Ben")
 for x in range(len(locationList)):
@@ -51,11 +47,8 @@ for x in range(len(locationList)):
     locationList[x].setCoor(location.latitude, location.longitude)
     locationList[x].print_location_information()
 
-    # marking location using gmplot
+# marking location using gmplot
 gmap = gmplot.GoogleMapPlotter(locationList[4].latitude, locationList[4].longitude, 3)
-
-
-
 
 # 2. Placing/Mark all points(drop markers)
 
@@ -64,19 +57,12 @@ for x in range(len(locationList)):
 
 print("")
 
-
-
-
-
-
 # 3. Get Distance
-
 print("The distance of the city(3 decimal place):")
 print("%15s|" % (''), end='')
 for i in range(len(locationList)):
     print("%15s|" % (locationList[i].name), end='')
 print('')
-
 distanceCountry = [[0] * len(locationList) for i in range(len(locationList))]
 
 for i in range(len(locationList)):
@@ -86,43 +72,18 @@ for i in range(len(locationList)):
         print("%12.3f km|" % distance.distance(locationList[i].coordinate, locationList[j].coordinate).km, end='')
     print('')
 
-# function of travel salesman person using Held-Karp algorithm
-def TSP(location):
-    n = len(location)
+# Algorithm to calculate the distance between city
+def distance_path(path, distanceCountry):
+    sum = 0.0
+    for y in range (len(path)-1):
+        sum = sum + distanceCountry[path[y]][path[y+1]]
+    print("The distance is ", end='')
+    print(sum)
+    return sum
 
-    # initial value of 0 to all other points
-    A = {}
-    for i, cost in enumerate(location[0][1:]):  # w[0][1:] = take length start from [0][1 afterward]
-        A.update({
-            (frozenset([0, i + 1]), i + 1): (cost, [0, i + 1])
-        })
-
-    for m in range(2, n):  # n, is the length of matrix
-        B = {}
-
-        # At this stage the recursion is used, in addition the 'combinations' module is used, which allows grouping
-        # and comparing data.
-        for S in [frozenset(C) | {0} for C in itertools.combinations(range(1, n), m)]:
-            for j in S - {0}:  # create set with all the place
-                # The least expensive route for the trip is sought, that is, the minimum values ​​are sought.
-                B[(S, j)] = min(
-                    (A[(S - {j}, k)][0] + location[k][j], A[(S - {j}, k)][1] + [j]) for k in S if k != 0 and k != j)
-
-        A = B  # store B in as as B in the loop only
-    # Start path and end path are now added
-
-    res = min((A[d][0] + location[0][d[1]], A[d][1]) for d in iter(A))  # get the minimum from the last set
-    # store res in array
-    # Once the minimum value is found, the optimal solution is available.
-
-    result = res[0], [(i) for i in res[1]]
-    result[1].append(0)
-
-    return result
-# End of travel salesman person function
-
-short = TSP(distanceCountry)[1] # get the shortest path
-costTPS = TSP(distanceCountry)[0] # get the shortest path cost
+# Get the shortest distance using Held Karp (Traveling Saleman Person)
+short = HeldKarp.TSP(distanceCountry)[1] # get the shortest path
+costTPS = HeldKarp.TSP(distanceCountry)[0] # get the shortest path cost
 
 print("\nThe shortest path is:")
 for i in range(len(short) - 1):
@@ -134,8 +95,6 @@ print("\nwith the total distance: %.3f km" % costTPS)
 
 # Brute force option
 # BruteForce.bruteforce(locationList);
-
-
 
 # 4. Plot Line
 
@@ -158,13 +117,9 @@ for j in range(len(short)):
     gmap.plot(latShort, longShort, 'red', edge_width=2)
 
 
-
-
 # 5.draw the map
 
 gmap.draw("Ben_Shortest_Adventure.html")
-
-
 
 
 # =============================================================== PROBLEM 2 =========================================================== #
@@ -230,6 +185,9 @@ for i in range(len(SV_Path) - 1):
     print(locationList[SV_Path[i]].name + " --> ", end="")
 print(locationList[0].name)
 print(SV_Path)
+
+print(SV_Path)
+distance_path(SV_Path, distanceCountry)
 
 # drawing the Sentinal Value Path on html
 SV_latList = []
@@ -342,16 +300,35 @@ for i in range(len(list_of_cities) - 1):
 print(str(list_of_cities[optimised_list[8]].name))
 
 
-
 # drawing the Sentinal Value Path on html
 os_latList = []
 os_longList = []
+op_coordinate = []
 for i in optimised_list:
     os_latList.append(locationList[i].latitude)
     os_longList.append(locationList[i].longitude)
+    op_coordinate.append((locationList[i].latitude, locationList[i].longitude))
 
 os_gmap = gmplot.GoogleMapPlotter(list_of_cities[6].latitude, list_of_cities[6].longitude, 3)
 for x in range(len(locationList)):
     os_gmap.marker(locationList[x].latitude, locationList[x].longitude)
 os_gmap.plot(os_latList,os_longList,'red', edge_width=2)
 os_gmap.draw("Optimised_Path.html")
+
+
+distanceCountry_op = [[0] * len(locationList) for i in range(len(locationList))]
+for i in range(len(locationList)):
+    # print("%-15s|" % locationList[i].name, end='')
+    for j in range(len(locationList)):
+        distanceCountry_op[i][j] = distance.distance(op_coordinate[i], op_coordinate[j]).km
+        # print("%12.3f km|" % distance.distance(op_coordinate[i], op_coordinate[j]).km, end='')
+    # print('')
+
+
+# print(optimised_list)
+distance_path(optimised_list, distanceCountry_op)
+# The distance is 13930.557
+# The distance is 22433.881936011112
+# The distance is 19003.14079994172
+
+
